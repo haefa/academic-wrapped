@@ -7,9 +7,7 @@ export default function UploadPage({ onDataExtracted }) {
   const [isDragging, setIsDragging] = useState(false);
 
   // Use environment variable or fallback to /api
-  const API_URL = typeof window !== 'undefined' && window.ENV?.VITE_API_URL 
-    ? window.ENV.VITE_API_URL 
-    : '/api';
+  const API_URL = import.meta.env.VITE_API_URL || '/api';
 
   const handleFile = (selectedFile) => {
     if (selectedFile && selectedFile.type === 'application/pdf') {
