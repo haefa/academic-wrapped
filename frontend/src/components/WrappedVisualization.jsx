@@ -39,29 +39,84 @@ export default function WrappedVisualization({ data = {} }) {
   const journalPubs = Array.isArray(data?.journal_publications) ? data.journal_publications : [];
   const totalPublications = journalPubs.length;
 
-  // Share functionality
+  // Share functionality with screenshot
   const handleShare = async (platform) => {
-    const shareText = `🎓 My Academic Wrapped ${semesterYear}
+    try {
+      // Create a canvas from the current slide
+      const slideElement = slideRef.current;
+      if (!slideElement) return;
 
-📊 ${totalCourses} Classes Taught
-📚 ${totalPublications} Publications
-👨‍🎓 ${totalAdvisees} Students Advised
-⭐ ${totalWorkload.toFixed(2)} SKS Total
+      // Use html2canvas if available, otherwise fallback to text share
+      if (typeof window !== 'undefined' && window.html2canvas) {
+        const canvas = await window.html2canvas(slideElement, {
+          backgroundColor: '#1a0b2e',
+          scale: 2,
+          logging: false,
+          useCORS: true
+        });
 
-Check out Academic Wrapped! ✨`;
+        // Convert canvas to blob
+        canvas.toBlob(async (blob) => {
+          const file = new File([blob], 'academic-wrapped.png', { type: 'image/png' });
 
-    const shareUrl = window.location.href;
-
-    if (platform === 'whatsapp') {
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`;
-      window.open(whatsappUrl, '_blank');
-    } else if (platform === 'copy') {
-      try {
-        await navigator.clipboard.writeText(shareText + '\n\n' + shareUrl);
-        alert('✓ Copied to clipboard!');
-      } catch (err) {
-        alert('Failed to copy. Please try again.');
+          if (platform === 'whatsapp') {
+            // For WhatsApp, try to share the image
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+              try {
+                await navigator.share({
+                  files: [file],
+                  title: 'My Academic Wrapped',
+                  text: `🎓 My Academic Wrapped ${semesterYear}\n📊 ${totalCourses} Classes | 📚 ${totalPublications} Publications | ⭐ ${totalWorkload.toFixed(2)} SKS`
+                });
+              } catch (err) {
+                // Fallback to WhatsApp text if image share fails
+                const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+              }
+            } else {
+              // Fallback to text share
+              const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨`;
+              window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+            }
+          } else if (platform === 'download') {
+            // Download the image
+            const url = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `academic-wrapped-${semesterYear}.png`;
+            link.href = url;
+            link.click();
+          } else if (platform === 'share') {
+            // Try native share with image
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: 'My Academic Wrapped',
+                text: `🎓 My Academic Wrapped ${semesterYear}`
+              });
+            } else {
+              // Fallback to download
+              const url = canvas.toDataURL('image/png');
+              const link = document.createElement('a');
+              link.download = `academic-wrapped-${semesterYear}.png`;
+              link.href = url;
+              link.click();
+            }
+          }
+        });
+      } else {
+        // Fallback to text share if html2canvas not available
+        const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨`;
+        
+        if (platform === 'whatsapp') {
+          window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+        } else {
+          await navigator.clipboard.writeText(shareText);
+          alert('✓ Copied to clipboard!');
+        }
       }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      alert('Failed to share. Please try again.');
     }
   };
 
@@ -366,21 +421,32 @@ Check out Academic Wrapped! ✨`;
             <p className="text-sm sm:text-base text-gray-400 mb-4">Share your achievement!</p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
               <button
-                onClick={() => handleShare('whatsapp')}
-                className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg"
+                onClick={() => handleShare('download')}
+                className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg"
               >
-                <Share2 className="w-5 h-5" />
-                <span>Share to WhatsApp</span>
+                <Download className="w-5 h-5" />
+                <span>Download Image</span>
               </button>
               
               <button
-                onClick={() => handleShare('copy')}
+                onClick={() => handleShare('share')}
+                className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg"
+              >
+                <Share2 className="w-5 h-5" />
+                <span>Share Image</span>
+              </button>
+              
+              <button
+                onClick={() => handleShare('whatsapp')}
                 className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg"
               >
-                <Download className="w-5 h-5" />
-                <span>Copy to Share</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                <span>WhatsApp</span>
               </button>
             </div>
+            <p className="text-xs text-gray-500 mt-2">Download the image first, then share to Instagram Story!</p>
           </div>
           
           <p className="text-sm sm:text-lg text-gray-500 mt-4 sm:mt-6">Keep up the amazing work! 🎉</p>
