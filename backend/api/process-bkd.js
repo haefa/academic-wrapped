@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     const pdfText = pdfData.text;
 
     // Extract data using Google AI
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     
     const prompt = `Extract the following information from this Indonesian BKD (Beban Kerja Dosen) document and return ONLY valid JSON with no additional text or markdown:
 
