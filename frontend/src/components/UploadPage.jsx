@@ -5,6 +5,8 @@ export default function UploadPage({ onDataExtracted }) {
   const [loading, setLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL || '/api';
+
   const handleFile = (selectedFile) => {
     if (selectedFile && selectedFile.type === 'application/pdf') {
       setFile(selectedFile);
@@ -21,7 +23,7 @@ export default function UploadPage({ onDataExtracted }) {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/api/process-bkd', {
+     const response = await fetch(`${API_URL}/process-bkd`, {
         method: 'POST',
         body: formData,
       });
