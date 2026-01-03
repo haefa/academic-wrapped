@@ -210,13 +210,13 @@ export default function WrappedVisualization({ data = {} }) {
             <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 rounded-3xl p-8 backdrop-blur border border-purple-500/30 col-span-2">
               <div className="text-6xl font-bold text-purple-400 mb-2">{totalResearchSks.toFixed(2)}</div>
               <div className="text-xl text-gray-300">Total Research Credits (SKS)</div>
-              <div className="text-sm text-gray-400 mt-2">Research contributions this year</div>
+              <div className="text-sm text-gray-400 mt-2">Research contributions this semester</div>
             </div>
             
             <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-3xl p-8 backdrop-blur border border-blue-500/30">
               <div className="text-5xl font-bold text-blue-400 mb-2">{totalPublications}</div>
               <div className="text-lg text-gray-300">Journal Publications</div>
-              <div className="text-sm text-gray-400 mt-2">Published this year</div>
+              <div className="text-sm text-gray-400 mt-2">Published this semester</div>
             </div>
             
             <div className="bg-gradient-to-br from-green-500/20 to-teal-500/20 rounded-3xl p-8 backdrop-blur border border-green-500/30">
@@ -312,7 +312,7 @@ export default function WrappedVisualization({ data = {} }) {
         <div className="text-center space-y-8">
           <Award className="w-24 h-24 mx-auto text-yellow-400 animate-bounce" />
           <h1 className="text-5xl font-bold text-white">That's a Wrap!</h1>
-          <p className="text-2xl text-gray-300">You achieved so much this academic year.</p>
+          <p className="text-2xl text-gray-300">You achieved so much this academic semester.</p>
           
           <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl p-8 backdrop-blur border border-purple-500/30 max-w-2xl mx-auto">
             <div className="grid grid-cols-3 gap-6">

@@ -57,7 +57,7 @@ export default function UploadPage({ onDataExtracted }) {
           <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
             Academic Wrapped
           </h1>
-          <p className="text-xl text-gray-300">Transform your BKD into a beautiful year-in-review</p>
+          <p className="text-xl text-gray-300">Transform your BKD into a beautiful semester-in-review</p>
           <p className="text-sm text-gray-400 mt-2">Just like Spotify Wrapped, but for academics! 🎓</p>
         </div>
 
@@ -67,7 +67,7 @@ export default function UploadPage({ onDataExtracted }) {
             <div className="text-center mb-6">
               <div className="text-6xl mb-4 animate-float">📄</div>
               <h2 className="text-3xl font-bold mb-2">Upload Your BKD</h2>
-              <p className="text-gray-300">PDF format from IPB BKD system</p>
+              <p className="text-gray-300">PDF format from SISTER/BKD</p>
             </div>
 
             {/* Drop Zone */}
@@ -130,7 +130,7 @@ export default function UploadPage({ onDataExtracted }) {
             <div className="bg-pink-500/20 rounded-2xl p-6 border border-pink-500/30">
               <div className="text-3xl mb-2">🏆</div>
               <h3 className="font-bold mb-1">Achievements</h3>
-              <p className="text-sm text-gray-400">Your year's highlights</p>
+              <p className="text-sm text-gray-400">Your semester's highlights</p>
             </div>
           </div>
 
