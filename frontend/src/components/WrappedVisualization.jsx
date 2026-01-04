@@ -113,7 +113,7 @@ export default function WrappedVisualization({ data = {} }) {
         });
       } else {
         // Fallback to text share if html2canvas not available
-        const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨`;
+        const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨\n\nhttps://academic-wrapped.vercel.app/`;
         
         if (platform === 'whatsapp') {
           window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
