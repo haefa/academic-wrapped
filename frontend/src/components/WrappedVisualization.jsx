@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ChevronRight, ChevronLeft, BookOpen, FlaskConical, Award, TrendingUp, Share2, Download } from 'lucide-react';
+import html2canvas from 'html2canvas'; 
 
 export default function WrappedVisualization({ data = {} }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -48,11 +49,12 @@ export default function WrappedVisualization({ data = {} }) {
 
       // Use html2canvas if available, otherwise fallback to text share
       if (typeof window !== 'undefined' && window.html2canvas) {
-        const canvas = await window.html2canvas(slideElement, {
+        const canvas = await html2canvas(slideElement, {
           backgroundColor: '#1a0b2e',
           scale: 2,
           logging: false,
-          useCORS: true
+          useCORS: true,
+          allowTaint: true
         });
 
         // Convert canvas to blob
@@ -84,7 +86,10 @@ export default function WrappedVisualization({ data = {} }) {
             const link = document.createElement('a');
             link.download = `academic-wrapped-${semesterYear}.png`;
             link.href = url;
+
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
           } else if (platform === 'share') {
             // Try native share with image
             if (navigator.share && navigator.canShare({ files: [file] })) {
@@ -99,7 +104,10 @@ export default function WrappedVisualization({ data = {} }) {
               const link = document.createElement('a');
               link.download = `academic-wrapped-${semesterYear}.png`;
               link.href = url;
+
+              document.body.appendChild(link);
               link.click();
+              document.body.removeChild(link);
             }
           }
         });
@@ -270,7 +278,7 @@ export default function WrappedVisualization({ data = {} }) {
           
           {uniqueCourseTypes > 3 && (
             <div className="text-center mt-4 sm:mt-6 text-sm sm:text-base text-gray-400">
-              + {uniqueCourseTypes - 3} more course types
+              + {uniqueCourseTypes - 3} more courses taught
             </div>
           )}
         </div>
