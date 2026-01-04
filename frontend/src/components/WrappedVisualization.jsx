@@ -428,20 +428,20 @@ export default function WrappedVisualization({ data = {} }) {
           <div className="mt-6 sm:mt-8 space-y-3">
             <p className="text-sm sm:text-base text-gray-400 mb-4">Share your achievement!</p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
-              <button
+              {/* <button
                 onClick={() => handleShare('download')}
                 className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg"
               >
                 <Download className="w-5 h-5" />
                 <span>Download Image</span>
-              </button>
+              </button> */}
               
               <button
                 onClick={() => handleShare('share')}
                 className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg"
               >
                 <Share2 className="w-5 h-5" />
-                <span>Share Image</span>
+                <span>Share Result</span>
               </button>
               
               <button
@@ -454,7 +454,7 @@ export default function WrappedVisualization({ data = {} }) {
                 <span>WhatsApp</span>
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">Download the image first, then share to Instagram Story!</p>
+            {/* <p className="text-xs text-gray-500 mt-2">Download the image first, then share to Instagram Story!</p> */}
           </div>
           
           <p className="text-sm sm:text-lg text-gray-500 mt-4 sm:mt-6">Keep up the amazing work! 🎉</p>
