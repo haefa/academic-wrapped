@@ -72,12 +72,12 @@ export default function WrappedVisualization({ data = {} }) {
                 });
               } catch (err) {
                 // Fallback to WhatsApp text if image share fails
-                const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨`;
+                const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨\n\nhttps://academic-wrapped.vercel.app/`;
                 window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
               }
             } else {
               // Fallback to text share
-              const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨`;
+              const shareText = `🎓 My Academic Wrapped ${semesterYear}\n\n📊 ${totalCourses} Classes Taught\n📚 ${totalPublications} Publications\n👨‍🎓 ${totalAdvisees} Students Advised\n⭐ ${totalWorkload.toFixed(2)} SKS Total\n\nCheck out Academic Wrapped! ✨\n\nhttps://academic-wrapped.vercel.app/`;
               window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
             }
           } else if (platform === 'download') {
